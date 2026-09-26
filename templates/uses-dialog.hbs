@@ -1,0 +1,21 @@
+<div class="uses-dialog">
+  <div class="uses-dialog-header">
+    <img class="uses-dialog-img" src="{{item.img}}" alt="">
+    <span class="uses-dialog-name">{{item.name}}</span>
+  </div>
+  <div class="uses-dialog-current">{{uses.value}} / {{uses.max}}</div>
+  <div class="uses-dialog-input-row">
+    <button class="uses-dialog-adjust" data-adjust="-1">
+      <i class="fa-solid fa-minus"></i>
+    </button>
+    <input type="number" class="uses-dialog-amount" value="{{uses.value}}" min="0" max="{{uses.max}}" inputmode="numeric">
+    <button class="uses-dialog-adjust" data-adjust="1">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </div>
+  <div class="uses-dialog-actions">
+    <button class="uses-dialog-btn apply" data-action="apply">
+      {{localize "SWIPE_VTT.Sheet.Apply"}}
+    </button>
+  </div>
+</div>

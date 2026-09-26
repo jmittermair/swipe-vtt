@@ -1,0 +1,40 @@
+<div class="header-top">
+  <div class="avatar-container {{#if hasInspiration}}has-inspiration{{/if}}" data-action="toggleInspiration">
+    <img class="header-avatar" src="{{actor.img}}" alt="">
+    <i class="fa-solid fa-star inspiration-indicator"></i>
+  </div>
+  <div class="header-info">
+    <h1 class="char-name">{{actor.name}}</h1>
+    <span class="char-details">{{classText}}{{#if race}} · {{race}}{{/if}}</span>
+    <div class="hp-display" data-action="openHpDialog">
+      <div class="hp-group">
+        <span class="hp-current">{{hp.value}}</span>
+      </div>
+      <span class="hp-separator">/</span>
+      <div class="hp-group">
+        <span class="hp-max">{{hp.effectiveMax}}</span>
+      </div>
+      <span class="hp-temp-badge {{#if hp.temp}}has-temp{{/if}}"><i class="fa-solid fa-heart"></i>{{#if hp.temp}} +{{hp.temp}}{{/if}}</span>
+      {{#if showDeathSaves}}
+      <div class="death-save-overlay {{#if death.stabilized}}stabilized{{/if}} {{#if death.dead}}dead{{/if}}">
+        <div class="death-saves-group success">
+          {{#each death.successPips}}
+          <span class="death-pip {{#if this.filled}}filled{{/if}}" data-type="success" data-index="{{this.index}}"></span>
+          {{/each}}
+        </div>
+        <i class="fa-solid {{#if death.dead}}fa-tombstone{{else}}fa-skull{{/if}} death-skull" data-action="deathSave"></i>
+        <div class="death-saves-group failure">
+          {{#each death.failurePips}}
+          <span class="death-pip {{#if this.filled}}filled{{/if}}" data-type="failure" data-index="{{this.index}}"></span>
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
+<div class="hp-bar-thin">
+  <div class="hp-bar-fill" style="flex: 0 0 {{hp.percent}}%"></div>
+  {{#if hp.tempmax}}<div class="hp-bar-fill" style="flex: 0 0 {{hp.tempMaxPercent}}%"></div>{{/if}}
+  {{#if hp.temp}}<div class="hp-bar-temp" style="flex: 0 0 {{hp.tempPercent}}%"></div>{{/if}}
+</div>

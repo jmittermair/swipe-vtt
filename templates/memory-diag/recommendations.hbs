@@ -1,0 +1,35 @@
+<section class="tab memory-diagnostics {{#if tab.active}}active{{/if}}" data-group="main" data-tab="recommendations">
+
+  {{#if recommendations.hasItems}}
+  <div class="diag-rec-summary">
+    {{#if recommendations.counts.critical}}<span class="diag-rec-count diag-critical">{{recommendations.counts.criticalLabel}}</span>{{/if}}
+    {{#if recommendations.counts.warning}}<span class="diag-rec-count diag-warning">{{recommendations.counts.warningLabel}}</span>{{/if}}
+    {{#if recommendations.counts.info}}<span class="diag-rec-count diag-info">{{recommendations.counts.infoLabel}}</span>{{/if}}
+  </div>
+
+  <div class="diag-recommendations">
+    {{#each recommendations.items}}
+    <div class="diag-rec-card diag-{{severity}}">
+      <div class="diag-rec-content">
+        <p class="diag-rec-message">{{message}}</p>
+        {{#if hasGroupItems}}
+        <ul class="diag-rec-list">
+          {{#each groupItems}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+        {{/if}}
+        {{#if actionHint}}<p class="diag-rec-hint">{{actionHint}}</p>{{/if}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  {{else}}
+  <div class="diag-no-issues">
+    <i class="fas fa-circle-check"></i>
+    <p>{{localize "SWIPE_VTT.MemoryDiag.NoIssuesFound"}}</p>
+  </div>
+  {{/if}}
+
+</section>

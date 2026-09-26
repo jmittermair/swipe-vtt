@@ -1,0 +1,33 @@
+<section class="swipe-vtt-join-approval">
+  <header class="swipe-vtt-join-approval__header">
+    <h3>{{localize "SWIPE_VTT.JoinApproval.Pending" count=count}}</h3>
+    <label class="swipe-vtt-join-approval__auto">
+      <input type="checkbox" name="autoApproveSession" {{#if autoApproveSession}}checked{{/if}}>
+      {{localize "SWIPE_VTT.JoinApproval.AutoApprove"}}
+    </label>
+  </header>
+
+  {{#if requests.length}}
+  <ul class="swipe-vtt-join-approval__list">
+    {{#each requests}}
+    <li class="swipe-vtt-join-approval__row" data-user-id="{{this.userId}}">
+      <img class="swipe-vtt-join-approval__avatar" src="{{this.avatar}}" alt="">
+      <div class="swipe-vtt-join-approval__meta">
+        <div class="swipe-vtt-join-approval__name">{{this.userName}}</div>
+        {{#if this.deviceLabel}}<div class="swipe-vtt-join-approval__device">{{this.deviceLabel}}</div>{{/if}}
+      </div>
+      <div class="swipe-vtt-join-approval__actions">
+        <button type="button" data-action="approve" data-user-id="{{this.userId}}" class="swipe-vtt-join-approval__btn approve">
+          {{localize "SWIPE_VTT.JoinApproval.Approve"}}
+        </button>
+        <button type="button" data-action="deny" data-user-id="{{this.userId}}" class="swipe-vtt-join-approval__btn deny">
+          {{localize "SWIPE_VTT.JoinApproval.Deny"}}
+        </button>
+      </div>
+    </li>
+    {{/each}}
+  </ul>
+  {{else}}
+  <p class="swipe-vtt-join-approval__empty">{{localize "SWIPE_VTT.JoinApproval.NoRequests"}}</p>
+  {{/if}}
+</section>

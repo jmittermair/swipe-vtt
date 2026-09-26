@@ -1,0 +1,24 @@
+<div class="header-top">
+  <div class="avatar-container">
+    <img class="header-avatar" src="{{actor.img}}" alt="">
+    <div class="npc-level-badge" title="Level">{{level}}</div>
+  </div>
+  <div class="header-info">
+    <h1 class="char-name">{{actor.name}}</h1>
+    <span class="char-details npc-info">{{creatureType}}</span>
+    <div class="hp-display" data-action="openHpDialog">
+      <div class="hp-group">
+        <span class="hp-current">{{hp.value}}</span>
+      </div>
+      <span class="hp-separator">/</span>
+      <div class="hp-group">
+        <span class="hp-max">{{hp.max}}</span>
+      </div>
+      <span class="hp-temp-badge {{#if hp.temp}}has-temp{{/if}}"><i class="fa-solid fa-shield-halved"></i>{{#if hp.temp}} +{{hp.temp}}{{/if}}</span>
+    </div>
+  </div>
+</div>
+<div class="hp-bar-thin">
+  <div class="hp-bar-fill" style="flex: 0 0 {{hp.percent}}%"></div>
+  {{#if hp.temp}}<div class="hp-bar-temp" style="flex: 0 0 {{hp.tempPercent}}%"></div>{{/if}}
+</div>

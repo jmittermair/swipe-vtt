@@ -1,0 +1,33 @@
+<section class="performance-mode-content form-content">
+  {{#if isFirstRun}}
+  <p class="intro">
+    {{localize "SWIPE_VTT.PerformanceMode.Intro" recommendedMode=recommendedModeName}}
+  </p>
+  {{/if}}
+
+  <p class="description">{{localize "SWIPE_VTT.PerformanceMode.ChooseMode"}}</p>
+
+  <div class="mode-list">
+    {{#each modes}}
+    <div class="mode-option {{#if isSelected}}selected{{/if}}" data-mode="{{id}}" data-action="selectMode">
+      <div class="mode-header">
+        <span class="mode-radio">
+          {{#if isSelected}}
+          <i class="fas fa-circle-dot"></i>
+          {{else}}
+          <i class="far fa-circle"></i>
+          {{/if}}
+        </span>
+        <span class="mode-name">{{name}}</span>
+        {{#if isRecommended}}
+        <span class="recommended-badge">{{localize "SWIPE_VTT.PerformanceMode.Recommended"}}</span>
+        {{/if}}
+      </div>
+      <p class="mode-description">{{description}}</p>
+      {{#if warning}}
+      <p class="mode-warning"><i class="fas fa-exclamation-triangle"></i> {{warning}}</p>
+      {{/if}}
+    </div>
+    {{/each}}
+  </div>
+</section>

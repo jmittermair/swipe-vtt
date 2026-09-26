@@ -1,0 +1,137 @@
+<div class="swipe-vtt-settings-cleanup">
+  <h4><strong>{{localize "SWIPE_VTT.SettingsCleanup.Title"}}</strong></h4>
+  <p>{{localize "SWIPE_VTT.SettingsCleanup.Description"}}</p>
+
+  {{#unless hasOrphans}}
+  <p class="hint no-orphans">
+    <i class="fas fa-check-circle"></i>
+    {{localize "SWIPE_VTT.SettingsCleanup.NoOrphansFound"}}
+  </p>
+  {{/unless}}
+
+  {{#if worldGroups.length}}
+  <fieldset>
+    <legend>
+      {{localize "SWIPE_VTT.SettingsCleanup.WorldSettings"}}
+      <span class="count-badge">{{worldTotalCount}}</span>
+    </legend>
+    <div class="select-all-row">
+      <label>
+        <input type="checkbox" data-action="toggleSection" data-section="world" checked />
+        <strong>{{localize "SWIPE_VTT.SettingsCleanup.SelectAll"}}</strong>
+      </label>
+    </div>
+    <div class="cleanup-grid">
+      <table>
+        <thead>
+          <tr>
+            <th class="checkbox-col"></th>
+            <th>{{localize "SWIPE_VTT.SettingsCleanup.Module"}}</th>
+            <th>{{localize "SWIPE_VTT.SettingsCleanup.Status"}}</th>
+            <th>{{localize "SWIPE_VTT.SettingsCleanup.SettingsCount"}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each worldGroups}}
+          <tr class="module-row {{#if isInstalled}}inactive{{else}}uninstalled{{/if}}">
+            <td>
+              <input type="checkbox"
+                     class="cleanup-checkbox"
+                     name="world.{{namespace}}"
+                     data-namespace="{{namespace}}"
+                     data-section="world"
+                     checked />
+            </td>
+            <td>
+              <label>{{moduleName}}</label>
+              {{#if showNamespace}}
+              <span class="namespace-id">({{namespace}})</span>
+              {{/if}}
+            </td>
+            <td>
+              {{#if isInstalled}}
+              <span class="status-badge inactive">
+                <i class="fas fa-pause-circle"></i>
+                {{localize "SWIPE_VTT.SettingsCleanup.StatusInactive"}}
+              </span>
+              {{else}}
+              <span class="status-badge uninstalled">
+                {{localize "SWIPE_VTT.SettingsCleanup.StatusUninstalled"}}
+              </span>
+              {{/if}}
+            </td>
+            <td>
+              {{settingCount}} {{localize "SWIPE_VTT.SettingsCleanup.Settings"}}
+              <span class="size-info">({{formattedSize}})</span>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </fieldset>
+  {{/if}}
+
+  {{#if clientGroups.length}}
+  <fieldset>
+    <legend>
+      {{localize "SWIPE_VTT.SettingsCleanup.ClientSettings"}}
+      <span class="count-badge">{{clientTotalCount}}</span>
+    </legend>
+    <div class="select-all-row">
+      <label>
+        <input type="checkbox" data-action="toggleSection" data-section="client" checked />
+        <strong>{{localize "SWIPE_VTT.SettingsCleanup.SelectAll"}}</strong>
+      </label>
+    </div>
+    <div class="cleanup-grid">
+      <table>
+        <thead>
+          <tr>
+            <th class="checkbox-col"></th>
+            <th>{{localize "SWIPE_VTT.SettingsCleanup.Module"}}</th>
+            <th>{{localize "SWIPE_VTT.SettingsCleanup.Status"}}</th>
+            <th>{{localize "SWIPE_VTT.SettingsCleanup.SettingsCount"}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each clientGroups}}
+          <tr class="module-row inactive">
+            <td>
+              <input type="checkbox"
+                     class="cleanup-checkbox"
+                     name="client.{{namespace}}"
+                     data-namespace="{{namespace}}"
+                     data-section="client"
+                     checked />
+            </td>
+            <td>
+              <label>{{moduleName}}</label>
+              {{#if showNamespace}}
+              <span class="namespace-id">({{namespace}})</span>
+              {{/if}}
+            </td>
+            <td>
+              <span class="status-badge inactive">
+                <i class="fas fa-pause-circle"></i>
+                {{localize "SWIPE_VTT.SettingsCleanup.StatusInactive"}}
+              </span>
+            </td>
+            <td>
+              {{settingCount}} {{localize "SWIPE_VTT.SettingsCleanup.Settings"}}
+              <span class="size-info">({{formattedSize}})</span>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </fieldset>
+  {{/if}}
+
+  {{#if hasOrphans}}
+  <p class="hint">
+    <small>{{localize "SWIPE_VTT.SettingsCleanup.Note"}}</small>
+  </p>
+  {{/if}}
+</div>

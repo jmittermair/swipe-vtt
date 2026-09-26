@@ -1,0 +1,145 @@
+<section class="form-content tab {{#if tab.active}}active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+  <p class="settings-intro">{{localize "SWIPE_VTT.Settings.MobileOnlyNote"}}</p>
+
+  <h3 class="settings-section-header">
+    {{localize "SWIPE_VTT.Settings.Tabs.Performance"}}
+    <span class="toggle-hint">{{localize "SWIPE_VTT.Settings.ToggleHints"}}</span>
+  </h3>
+
+  <fieldset class="performance-mode-settings">
+    <legend>{{localize "SWIPE_VTT.PerformanceMode.CurrentMode"}}</legend>
+
+    <div class="current-mode-display">
+      <span class="mode-name">{{currentModeName}}</span>
+      <p class="hint mode-description">{{currentModeDescription}}</p>
+    </div>
+
+    <div class="form-group performance-mode-actions">
+      <button type="button" data-action="openPerformanceModeDialog" class="change-mode-button">
+        <i class="fas fa-sliders-h"></i>
+        {{localize "SWIPE_VTT.PerformanceMode.ChangeMode"}}
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label for="autoOptimizeEnabled">{{localize "SWIPE_VTT.PerformanceMode.AutoOptimize.Name"}}</label>
+      <input type="checkbox" name="autoOptimizeEnabled" id="autoOptimizeEnabled" {{#if settings.autoOptimizeEnabled}}checked{{/if}} />
+      <p class="hint">{{localize "SWIPE_VTT.PerformanceMode.AutoOptimize.Hint"}}</p>
+    </div>
+  </fieldset>
+
+  <details class="advanced-settings">
+    <summary>{{localize "SWIPE_VTT.Settings.AdvancedSettings"}}</summary>
+
+    <fieldset class="power-saver-settings">
+      <legend>{{localize "SWIPE_VTT.Settings.PowerSaver.Title"}}</legend>
+
+      <div class="form-group {{#if forced.limitFps}}gm-forced{{/if}}">
+        <label for="limitFps">{{fields.limitFps.label}}{{#if forced.limitFps}} <i class="fas fa-lock gm-override-indicator" title="{{localize "SWIPE_VTT.UserConfig.ForcedByGM"}}"></i>{{/if}}</label>
+        <input type="checkbox" name="limitFps" id="limitFps" {{#if settings.limitFps}}checked{{/if}} {{#if forced.limitFps}}disabled{{/if}} />
+        <p class="hint">{{fields.limitFps.hint}}</p>
+      </div>
+
+      <div class="form-group {{#if forced.disableAnimations}}gm-forced{{/if}}">
+        <label for="disableAnimations">{{fields.disableAnimations.label}}{{#if forced.disableAnimations}} <i class="fas fa-lock gm-override-indicator" title="{{localize "SWIPE_VTT.UserConfig.ForcedByGM"}}"></i>{{/if}}</label>
+        <input type="checkbox" name="disableAnimations" id="disableAnimations" {{#if settings.disableAnimations}}checked{{/if}} {{#if forced.disableAnimations}}disabled{{/if}} />
+        <p class="hint">{{fields.disableAnimations.hint}}</p>
+      </div>
+
+      <div class="form-group {{#if forced.useNativeResolution}}gm-forced{{/if}}">
+        <label for="useNativeResolution">{{fields.useNativeResolution.label}}{{#if forced.useNativeResolution}} <i class="fas fa-lock gm-override-indicator" title="{{localize "SWIPE_VTT.UserConfig.ForcedByGM"}}"></i>{{/if}}</label>
+        <input type="checkbox" name="useNativeResolution" id="useNativeResolution" {{#if settings.useNativeResolution}}checked{{/if}} {{#if forced.useNativeResolution}}disabled{{/if}} />
+        <p class="hint">{{fields.useNativeResolution.hint}}</p>
+      </div>
+    </fieldset>
+
+    <fieldset class="disable-modules-settings">
+      <legend>{{localize "SWIPE_VTT.Settings.DisableModules.Title"}}</legend>
+
+      <div class="form-group">
+        <label for="disableIncompatible">{{fields.disableIncompatible.label}}</label>
+        <input type="checkbox" name="disableIncompatible" id="disableIncompatible" {{#if settings.disableIncompatible}}checked{{/if}} />
+        <p class="hint">{{fields.disableIncompatible.hint}}</p>
+      </div>
+
+      {{#if hasAutoAnimations}}
+      <div class="form-group">
+        <label for="disableAAAnimations">{{fields.disableAAAnimations.label}}</label>
+        <input type="checkbox" name="disableAAAnimations" id="disableAAAnimations" {{#if settings.disableAAAnimations}}checked{{/if}} />
+        <p class="hint">{{fields.disableAAAnimations.hint}}</p>
+      </div>
+      {{/if}}
+
+      {{#if hasDiceSoNice}}
+      <div class="form-group">
+        <label for="disableDiceSoNice">{{fields.disableDiceSoNice.label}}</label>
+        <input type="checkbox" name="disableDiceSoNice" id="disableDiceSoNice" {{#if settings.disableDiceSoNice}}checked{{/if}} />
+        <p class="hint">{{fields.disableDiceSoNice.hint}}</p>
+      </div>
+
+      <div class="form-group">
+        <label for="dsnShadowsOff">{{fields.dsnShadowsOff.label}}</label>
+        <input type="checkbox" name="dsnShadowsOff" id="dsnShadowsOff" {{#if settings.dsnShadowsOff}}checked{{/if}} />
+        <p class="hint">{{fields.dsnShadowsOff.hint}}</p>
+      </div>
+      {{/if}}
+
+      <div class="form-group {{#if forced.disableCanvas}}gm-forced{{/if}}">
+        <label for="disableCanvas">{{fields.disableCanvas.label}}{{#if forced.disableCanvas}} <i class="fas fa-lock gm-override-indicator" title="{{localize "SWIPE_VTT.UserConfig.ForcedByGM"}}"></i>{{/if}}</label>
+        <input type="checkbox" name="disableCanvas" id="disableCanvas" {{#if settings.disableCanvas}}checked{{/if}} {{#if forced.disableCanvas}}disabled{{/if}} />
+        <p class="hint">{{fields.disableCanvas.hint}}</p>
+      </div>
+
+    </fieldset>
+
+    <fieldset class="canvas-freeze-settings">
+      <legend>{{localize "SWIPE_VTT.Settings.CanvasFreeze.Enabled.Name"}}</legend>
+
+      <div class="form-group {{#if forced.canvasFreezeEnabled}}gm-forced{{/if}}">
+        <label for="canvasFreezeEnabled">{{fields.canvasFreezeEnabled.label}}{{#if forced.canvasFreezeEnabled}} <i class="fas fa-lock gm-override-indicator" title="{{localize "SWIPE_VTT.UserConfig.ForcedByGM"}}"></i>{{/if}}</label>
+        <input type="checkbox" name="canvasFreezeEnabled" id="canvasFreezeEnabled" {{#if settings.canvasFreezeEnabled}}checked{{/if}} {{#if forced.canvasFreezeEnabled}}disabled{{/if}} />
+        <p class="hint">{{fields.canvasFreezeEnabled.hint}}</p>
+      </div>
+
+      <div class="form-group range">
+        <label for="canvasFreezeDelay">{{fields.canvasFreezeDelay.label}}</label>
+        <div class="range-input-group">
+          <input type="range" name="canvasFreezeDelay" id="canvasFreezeDelay"
+                 min="{{fields.canvasFreezeDelay.min}}"
+                 max="{{fields.canvasFreezeDelay.max}}"
+                 step="{{fields.canvasFreezeDelay.step}}"
+                 value="{{settings.canvasFreezeDelay}}" />
+          <input type="number" class="range-value"
+                 min="{{fields.canvasFreezeDelay.min}}"
+                 max="{{fields.canvasFreezeDelay.max}}"
+                 step="{{fields.canvasFreezeDelay.step}}"
+                 value="{{settings.canvasFreezeDelay}}" />
+        </div>
+        <p class="hint">{{fields.canvasFreezeDelay.hint}}</p>
+      </div>
+    </fieldset>
+
+    <fieldset class="freeze-triggers">
+      <legend>{{localize "SWIPE_VTT.Settings.UnfreezeTriggers"}}</legend>
+
+      <div class="form-group">
+        <label for="canvasFreezeOnCombat">{{fields.canvasFreezeOnCombat.label}}</label>
+        <input type="checkbox" name="canvasFreezeOnCombat" id="canvasFreezeOnCombat" {{#if settings.canvasFreezeOnCombat}}checked{{/if}} />
+        <p class="hint">{{fields.canvasFreezeOnCombat.hint}}</p>
+      </div>
+
+      <div class="form-group">
+        <label for="canvasFreezeOnTokenMove">{{fields.canvasFreezeOnTokenMove.label}}</label>
+        <input type="checkbox" name="canvasFreezeOnTokenMove" id="canvasFreezeOnTokenMove" {{#if settings.canvasFreezeOnTokenMove}}checked{{/if}} />
+        <p class="hint">{{fields.canvasFreezeOnTokenMove.hint}}</p>
+      </div>
+
+      <div class="form-group">
+        <label for="canvasFreezeOnDiceRoll">{{fields.canvasFreezeOnDiceRoll.label}}</label>
+        <input type="checkbox" name="canvasFreezeOnDiceRoll" id="canvasFreezeOnDiceRoll" {{#if settings.canvasFreezeOnDiceRoll}}checked{{/if}} />
+        <p class="hint">{{fields.canvasFreezeOnDiceRoll.hint}}</p>
+      </div>
+    </fieldset>
+  </details>
+
+</section>

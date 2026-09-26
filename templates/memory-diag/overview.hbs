@@ -1,0 +1,72 @@
+<section class="tab memory-diagnostics {{#if tab.active}}active{{/if}}" data-group="main" data-tab="overview">
+
+  {{!-- Device Summary Banner --}}
+  <div class="diag-summary">
+    <div class="diag-summary-text">
+      <strong>{{overview.device.tierName}} device</strong> &middot; {{overview.device.gpu}}
+      {{#if overview.device.cpuCores}}&middot; {{overview.device.cpuCores}} cores{{/if}}
+      {{#if overview.device.maxTextureSize}}&middot; Max texture: {{overview.device.maxTextureSize}}px{{/if}}
+    </div>
+  </div>
+
+  {{!-- Quick Stats Grid --}}
+  <fieldset class="diag-section">
+    <legend><i class="fas fa-chart-bar"></i> {{localize "SWIPE_VTT.MemoryDiag.QuickStats"}}</legend>
+    <div class="diag-stats-grid">
+      <div class="diag-stat">
+        <span class="diag-stat-value">{{overview.totalDocs}}</span>
+        <span class="diag-stat-label">{{localize "SWIPE_VTT.MemoryDiag.WorldDocuments"}}</span>
+      </div>
+      <div class="diag-stat">
+        <span class="diag-stat-value">{{overview.modules.activeCount}}</span>
+        <span class="diag-stat-label">{{localize "SWIPE_VTT.MemoryDiag.ActiveModules"}}</span>
+        <span class="diag-stat-sub">{{overview.modules.totalSize}}</span>
+      </div>
+      <div class="diag-stat">
+        <span class="diag-stat-value">{{overview.textures.count}}</span>
+        <span class="diag-stat-label">{{localize "SWIPE_VTT.MemoryDiag.LoadedTextures"}}</span>
+      </div>
+      <div class="diag-stat">
+        <span class="diag-stat-value">{{overview.textures.total}}</span>
+        <span class="diag-stat-label">{{localize "SWIPE_VTT.MemoryDiag.TextureMemory"}}</span>
+      </div>
+    </div>
+    {{#if overview.hasEstimate}}
+    <div class="diag-stat diag-stat-total">
+      <span class="diag-stat-label">{{localize "SWIPE_VTT.MemoryDiag.EstimatedTotal"}}</span>
+      <span class="diag-stat-value">{{overview.estimatedTotal}}</span>
+      <span class="diag-stat-sub">{{localize "SWIPE_VTT.MemoryDiag.EstimatedTotalHint"}}</span>
+    </div>
+    {{/if}}
+  </fieldset>
+
+  {{!-- Collection Counts --}}
+  <fieldset class="diag-section">
+    <legend><i class="fas fa-layer-group"></i> {{localize "SWIPE_VTT.MemoryDiag.CollectionCounts"}}</legend>
+    <table class="diag-table diag-overview">
+      <tbody>
+        {{#each overview.collectionCounts}}
+        <tr><td>{{label}}</td><td class="num">{{count}}</td></tr>
+        {{/each}}
+        {{#if overview.hasHeap}}
+        <tr><td>JS Heap</td><td class="num">{{overview.heap.used}} / {{overview.heap.limit}} ({{overview.heap.pct}}%)</td></tr>
+        {{/if}}
+      </tbody>
+    </table>
+  </fieldset>
+
+  {{!-- Top Warnings --}}
+  {{#if overview.hasWarnings}}
+  <fieldset class="diag-section">
+    <legend><i class="fas fa-flag"></i> {{localize "SWIPE_VTT.MemoryDiag.ToConsider"}}</legend>
+    <div class="diag-warnings">
+      {{#each overview.warnings}}
+      <div class="diag-warning diag-{{severity}}">
+        <span>{{message}}</span>
+      </div>
+      {{/each}}
+    </div>
+  </fieldset>
+  {{/if}}
+
+</section>

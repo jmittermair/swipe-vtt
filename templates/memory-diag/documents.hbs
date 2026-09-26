@@ -1,0 +1,175 @@
+<section class="tab memory-diagnostics {{#if tab.active}}active{{/if}}" data-group="main" data-tab="documents">
+
+  <p class="hint on diag-intro">{{localize "SWIPE_VTT.MemoryDiag.DocumentsIntro"}}</p>
+
+  {{!-- Document Usage Tracker --}}
+  <fieldset class="diag-section">
+    <legend><i class="fas fa-eye"></i> {{localize "SWIPE_VTT.MemoryDiag.UsageTracking"}}</legend>
+    {{#if documents.usage.active}}
+      <p class="hint">{{localize "SWIPE_VTT.MemoryDiag.UsageActiveHint" elapsed=documents.usage.elapsedLabel}}</p>
+      <table class="diag-table">
+        <thead>
+          <tr>
+            <th>{{localize "SWIPE_VTT.MemoryDiag.Type"}}</th>
+            <th class="num">{{localize "SWIPE_VTT.MemoryDiag.UsageLoaded"}}</th>
+            <th class="num">{{localize "SWIPE_VTT.MemoryDiag.UsageAccessed"}}</th>
+            <th class="num">{{localize "SWIPE_VTT.MemoryDiag.UsageRendered"}}</th>
+            <th class="num">{{localize "SWIPE_VTT.MemoryDiag.UsageUntouched"}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each documents.usage.rows}}
+          <tr>
+            <td>{{label}}</td>
+            <td class="num">{{loadedLabel}}</td>
+            <td class="num">{{accessedLabel}}</td>
+            <td class="num">{{renderedLabel}}</td>
+            <td class="num">{{untouchedLabel}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      {{#if documents.usage.hasUntouchedTotal}}
+        <p class="hint">{{localize "SWIPE_VTT.MemoryDiag.UsageUntouchedTotal" size=documents.usage.untouchedTotalLabel}}</p>
+      {{/if}}
+      <div class="diag-actions-row">
+        <button type="button" data-action="disableUsageTracking">
+          <i class="fas fa-stop"></i> {{localize "SWIPE_VTT.MemoryDiag.UsageDisable"}}
+        </button>
+      </div>
+    {{else}}
+      <p class="hint">{{localize "SWIPE_VTT.MemoryDiag.UsageInactiveHint"}}</p>
+      <div class="diag-actions-row">
+        <button type="button" data-action="enableUsageTracking">
+          <i class="fas fa-play"></i> {{localize "SWIPE_VTT.MemoryDiag.UsageEnable"}}
+        </button>
+      </div>
+    {{/if}}
+  </fieldset>
+
+  {{!-- World vs Compendium Comparison --}}
+  {{#if documents.hasComparison}}
+  <fieldset class="diag-section">
+    <legend><i class="fas fa-scale-balanced"></i> {{localize "SWIPE_VTT.MemoryDiag.WorldVsCompendium"}}</legend>
+    <p class="hint">{{localize "SWIPE_VTT.MemoryDiag.WorldVsCompendiumHint"}}</p>
+    <table class="diag-table">
+      <thead>
+        <tr>
+          <th>{{localize "SWIPE_VTT.MemoryDiag.Type"}}</th>
+          <th>{{localize "SWIPE_VTT.MemoryDiag.World"}}</th>
+          <th>{{localize "SWIPE_VTT.MemoryDiag.Compendium"}}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each documents.comparison}}
+        <tr>
+          <td>{{label}}</td>
+          <td class="num">{{worldCountLabel}}</td>
+          <td class="num">{{compendiumCountLabel}}</td>
+          <td>
+            <div class="diag-bar">
+              <div class="diag-bar-fill diag-bar-world" style="width: {{worldPct}}%"></div>
+              <div class="diag-bar-fill diag-bar-compendium" style="width: {{compendiumPct}}%"></div>
+            </div>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <div class="diag-bar-legend">
+      <span class="diag-legend-item"><span class="diag-legend-swatch diag-bar-world"></span> {{localize "SWIPE_VTT.MemoryDiag.WorldInMemory"}}</span>
+      <span class="diag-legend-item"><span class="diag-legend-swatch diag-bar-compendium"></span> {{localize "SWIPE_VTT.MemoryDiag.CompendiumLazy"}}</span>
+    </div>
+  </fieldset>
+  {{/if}}
+
+  {{!-- Heaviest Documents by Collection (collapsible) --}}
+  {{#each documents.collections}}
+  <details class="diag-collection-details">
+    <summary class="diag-collection-summary">
+      <i class="fas fa-database"></i>
+      <span class="diag-collection-label">{{label}}</span>
+      <span class="count-badge">{{totalCount}}</span>
+      {{#if totalBytes}}<span class="diag-size-badge">{{totalBytes}}</span>{{/if}}
+    </summary>
+    <div class="diag-collection-content">
+      {{#if skipped}}
+      <p class="hint">{{localize "SWIPE_VTT.MemoryDiag.SkippedLargeCollection" count=totalCount}}</p>
+      {{else if items.length}}
+      <table class="diag-table">
+        <thead>
+          <tr>
+            <th>{{localize "SWIPE_VTT.MemoryDiag.Name"}}</th>
+            <th>{{localize "SWIPE_VTT.MemoryDiag.Type"}}</th>
+            <th>{{localize "SWIPE_VTT.MemoryDiag.DataSize"}}</th>
+            <th>{{localize "SWIPE_VTT.MemoryDiag.Embedded"}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each items}}
+          <tr>
+            <td class="asset-path" title="{{name}}">{{name}}</td>
+            <td>{{type}}</td>
+            <td class="num">{{formatted}}</td>
+            <td class="num">{{#if hasEmbedded}}{{embeddedSummary}}{{/if}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      {{#if totalPages}}
+      <div class="diag-pagination">
+        <button type="button" class="diag-page-btn" data-action="prevPage" data-collection="{{key}}" {{#unless hasPrev}}disabled{{/unless}}>
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <span class="diag-page-info">{{page}} / {{totalPages}}</span>
+        <button type="button" class="diag-page-btn" data-action="nextPage" data-collection="{{key}}" {{#unless hasNext}}disabled{{/unless}}>
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      {{/if}}
+      {{else}}
+      <p class="hint">{{localize "SWIPE_VTT.MemoryDiag.NoDocuments"}}</p>
+      {{/if}}
+    </div>
+  </details>
+  {{/each}}
+
+  {{!-- Server-Side Disk Sizes --}}
+  {{#if documents.isGM}}
+    {{#if documents.serverSizes}}
+    <fieldset class="diag-section">
+      <legend><i class="fas fa-hard-drive"></i> {{localize "SWIPE_VTT.MemoryDiag.DiskUsage"}}</legend>
+      <p class="hint">{{localize "SWIPE_VTT.MemoryDiag.DiskUsageHint"}}</p>
+
+      <h4>{{localize "SWIPE_VTT.MemoryDiag.WorldData"}} ({{documents.serverSizes.totalWorld}})</h4>
+      <table class="diag-table">
+        <thead><tr><th>{{localize "SWIPE_VTT.MemoryDiag.Collection"}}</th><th>{{localize "SWIPE_VTT.MemoryDiag.Count"}}</th><th>{{localize "SWIPE_VTT.MemoryDiag.DiskSize"}}</th></tr></thead>
+        <tbody>
+          {{#each documents.serverSizes.worldSizes}}
+          <tr><td>{{label}}</td><td class="num">{{count}}</td><td class="num">{{formatted}}</td></tr>
+          {{/each}}
+        </tbody>
+      </table>
+
+      {{#if documents.serverSizes.hasPackSizes}}
+      <h4>{{localize "SWIPE_VTT.MemoryDiag.CompendiumData"}} ({{documents.serverSizes.totalPacks}})</h4>
+      <table class="diag-table">
+        <thead><tr><th>{{localize "SWIPE_VTT.MemoryDiag.Pack"}}</th><th>{{localize "SWIPE_VTT.MemoryDiag.IndexEntries"}}</th><th>{{localize "SWIPE_VTT.MemoryDiag.DiskSize"}}</th></tr></thead>
+        <tbody>
+          {{#each documents.serverSizes.packSizes}}
+          <tr><td class="asset-path" title="{{id}}">{{label}}</td><td class="num">{{indexSize}}</td><td class="num">{{formatted}}</td></tr>
+          {{/each}}
+        </tbody>
+      </table>
+      {{/if}}
+    </fieldset>
+    {{/if}}
+  {{else}}
+  <fieldset class="diag-section">
+    <legend><i class="fas fa-hard-drive"></i> {{localize "SWIPE_VTT.MemoryDiag.DiskUsage"}}</legend>
+    <p class="hint">{{localize "SWIPE_VTT.MemoryDiag.GMRequired"}}</p>
+  </fieldset>
+  {{/if}}
+
+</section>

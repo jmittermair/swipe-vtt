@@ -1,0 +1,77 @@
+<section class="tab premium-auth-content {{tab.cssClass}}" data-group="primary-tabs" data-tab="{{tab.id}}">
+  <p class="hint on">{{localize "SWIPE_VTT.Premium.Description"}}</p>
+
+  {{!-- <fieldset> --}}
+    <h3>{{localize "SWIPE_VTT.Premium.PatreonAuth"}}</h3>
+
+    {{#if isConnected}}
+      {{!-- Connected state --}}
+      <div class="form-group patron-info">
+        <div class="status-card {{#if hasSufficientTier}}success{{else}}warning{{/if}}">
+          <div class="status-header">
+            <h3>{{localize "SWIPE_VTT.Premium.Connected"}}</h3>
+          </div>
+          <div class="patron-details">
+            <p><strong>{{localize "SWIPE_VTT.Premium.PatronName"}}:</strong> {{#if patronStatus.name}}{{patronStatus.name}}{{else}}{{localize "SWIPE_VTT.Premium.PatronNameUnknown"}}{{/if}}</p>
+            <p><strong>{{localize "SWIPE_VTT.Premium.PatronTier"}}:</strong> {{patronTierName}}{{#if patronStatus.onGracePeriod}} <em class="grace-period">({{gracePeriodText}})</em>{{/if}}</p>
+          </div>
+
+          {{#unless hasSufficientTier}}
+            <div class="tier-warning">
+              <i class="fas fa-exclamation-triangle"></i>
+              <span>{{localize "SWIPE_VTT.Premium.InsufficientTierWarning"}}</span>
+              <a href="{{patreonUpgradeUrl}}" target="_blank" class="upgrade-link">
+                <i class="fas fa-external-link-alt"></i>
+                {{localize "SWIPE_VTT.Premium.UpgradeTier"}}
+              </a>
+            </div>
+          {{/unless}}
+        </div>
+      </div>
+
+      {{#if premiumLoaded}}
+        <div class="form-group premium-features">
+          <label>{{localize "SWIPE_VTT.Premium.LoadedFeatures"}}</label>
+          <div class="features-list">
+            {{#each loadedBundles}}
+              <span class="feature-badge">
+                <i class="fas fa-puzzle-piece"></i>
+                {{this}}
+              </span>
+            {{/each}}
+          </div>
+        </div>
+      {{/if}}
+
+      <div class="form-group buttons-row">
+        <button type="button" data-action="logout" class="logout-btn">
+          {{localize "SWIPE_VTT.Premium.Logout"}}
+        </button>
+      </div>
+    {{else}}
+      {{!-- Not connected state --}}
+      <div class="form-group buttons-row">
+        <button type="button" data-action="authenticatePatreon" class="patreon-btn">
+          <i class="fab fa-patreon"></i>
+          {{localize "SWIPE_VTT.Premium.ConnectPatreon"}}
+        </button>
+      </div>
+
+      {{!-- Link code alternative for mobile/desktop app --}}
+      <fieldset class="link-code-fieldset">
+        <legend>{{localize "SWIPE_VTT.Premium.LinkCodeFieldset"}}</legend>
+        <p class="hint">{{localize "SWIPE_VTT.Premium.LinkCodeHint"}}</p>
+        <a href="{{proxyUrl}}/auth/link" target="_blank" class="get-code-link">
+          <i class="fas fa-external-link-alt"></i>
+          {{localize "SWIPE_VTT.Premium.GetLinkCode"}}
+        </a>
+        <div class="link-code-input-row">
+          <input type="text" name="linkCode" placeholder="ABC-123" maxlength="7" autocomplete="off" />
+          <button type="button" data-action="redeemLinkCode" class="redeem-btn">
+            {{localize "SWIPE_VTT.Premium.SaveCode"}}
+          </button>
+        </div>
+      </fieldset>
+    {{/if}}
+  {{!-- </fieldset> --}}
+</section>

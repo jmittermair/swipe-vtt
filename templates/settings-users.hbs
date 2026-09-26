@@ -1,0 +1,74 @@
+<section class="form-content tab {{#if tab.active}}active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+  <p class="settings-intro">{{localize "SWIPE_VTT.UserConfig.Description"}}</p>
+
+  <div class="form-group standalone-approval-row">
+    <label for="autoApproveStandalone">{{fields.autoApproveStandalone.label}}</label>
+    <input type="checkbox" name="autoApproveStandalone" id="autoApproveStandalone" {{#if settings.autoApproveStandalone}}checked{{/if}} />
+    <p class="hint">{{fields.autoApproveStandalone.hint}}</p>
+  </div>
+
+  {{#if users.length}}
+  <div class="user-config-list">
+    {{#each users}}
+    <div class="user-config-card" data-user-id="{{this.id}}">
+      <div class="user-config-header">
+        <img class="user-avatar" src="{{this.avatar}}" alt="{{this.name}}" />
+        <span class="user-name" style="border-color: {{this.color}}">{{this.name}}</span>
+
+        <select name="userConfig.{{this.id}}.mode" class="user-mode-select">
+          <option value="auto" {{#if (eq this.config.mode "auto")}}selected{{/if}}>{{localize "SWIPE_VTT.UserConfig.ModeAuto"}}</option>
+          <option value="minimal" {{#if (eq this.config.mode "minimal")}}selected{{/if}}>{{localize "SWIPE_VTT.PerformanceMode.Minimal.Name"}}</option>
+          <option value="balanced" {{#if (eq this.config.mode "balanced")}}selected{{/if}}>{{localize "SWIPE_VTT.PerformanceMode.Balanced.Name"}}</option>
+          <option value="aggressive" {{#if (eq this.config.mode "aggressive")}}selected{{/if}}>{{localize "SWIPE_VTT.PerformanceMode.Aggressive.Name"}}</option>
+          <option value="sheets-only" {{#if (eq this.config.mode "sheets-only")}}selected{{/if}}>{{localize "SWIPE_VTT.PerformanceMode.SheetOnly.Name"}}</option>
+          <option value="standalone" {{#if (eq this.config.mode "standalone")}}selected{{/if}}>{{localize "SWIPE_VTT.PerformanceMode.Standalone.Name"}}</option>
+          <option value="off" {{#if (eq this.config.mode "off")}}selected{{/if}}>{{localize "SWIPE_VTT.UserConfig.ModeOff"}}</option>
+        </select>
+        <label class="user-force-label">{{localize "SWIPE_VTT.UserConfig.Force"}}
+          <input type="checkbox" name="userConfig.{{this.id}}.force" class="user-force-checkbox" {{#if this.config.force}}checked{{/if}} />
+        </label>
+      </div>
+
+      <details class="user-overrides">
+        <summary>
+          <span class="user-overrides-title">{{localize "SWIPE_VTT.UserConfig.Overrides"}}</span>
+          {{#if this.hasDuplicate}}
+          <button type="button" class="user-duplicate-btn has-duplicate"
+            data-action="removeDuplicateUser"
+            data-user-id="{{this.id}}"
+            onclick="event.preventDefault()"
+            title="{{localize "SWIPE_VTT.UserConfig.RemoveDuplicateHint"}}">
+            {{localize "SWIPE_VTT.UserConfig.RemoveDuplicate"}}
+          </button>
+          {{else}}
+          <button type="button" class="user-duplicate-btn"
+            data-action="duplicateUser"
+            data-user-id="{{this.id}}"
+            onclick="event.preventDefault()"
+            title="{{localize "SWIPE_VTT.UserConfig.DuplicateHint"}}">
+            {{localize "SWIPE_VTT.UserConfig.Duplicate"}}
+          </button>
+          {{/if}}
+        </summary>
+        <div class="user-overrides-content">
+          <div class="override-row override-header">
+            <span></span>
+            <span>{{localize "SWIPE_VTT.UserConfig.On"}}</span>
+            <span>{{localize "SWIPE_VTT.UserConfig.Force"}}</span>
+          </div>
+          {{#each this.overrideFields}}
+          <div class="override-row">
+            <span class="override-label">{{this.label}}</span>
+            <input type="checkbox" name="userConfig.{{../id}}.overrides.{{this.key}}" {{#if this.enabled}}checked{{/if}} />
+            <input type="checkbox" name="userConfig.{{../id}}.forcedOverrides.{{this.key}}" {{#if this.forced}}checked{{/if}} />
+          </div>
+          {{/each}}
+        </div>
+      </details>
+    </div>
+    {{/each}}
+  </div>
+  {{else}}
+  <p class="no-users-message">{{localize "SWIPE_VTT.UserConfig.NoUsers"}}</p>
+  {{/if}}
+</section>

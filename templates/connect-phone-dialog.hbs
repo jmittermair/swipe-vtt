@@ -1,0 +1,45 @@
+<div class="connect-phone-content">
+  <p class="connect-phone-instructions">{{localize "SWIPE_VTT.ConnectPhone.Instructions"}}</p>
+
+  {{#if qrDataUrl}}
+  <div class="connect-phone-qr">
+    <img src="{{qrDataUrl}}" alt="QR Code" width="200" height="200">
+  </div>
+  {{/if}}
+
+  <div class="connect-phone-url-row">
+    <input type="text" class="connect-phone-url-input" value="{{joinUrl}}" readonly>
+    <button type="button" class="connect-phone-copy-btn" data-action="copyUrl" title="{{localize "SWIPE_VTT.ConnectPhone.CopyUrl"}}">
+      <i class="fas fa-copy"></i>
+    </button>
+  </div>
+
+  <p class="connect-phone-note">{{localize "SWIPE_VTT.ConnectPhone.NetworkNote"}}</p>
+
+  {{#if canManage}}
+  <div class="connect-phone-manage">
+    {{#if duplicateUser}}
+    <div class="manage-actions">
+      <button type="button" data-action="setDuplicatePassword" title="{{localize "SWIPE_VTT.MobileDuplicate.SetPasswordHint"}}">
+        {{localize "SWIPE_VTT.MobileDuplicate.SetPassword"}}
+      </button>
+      <button type="button" data-action="disconnectUser" title="{{localize "SWIPE_VTT.ConnectPhone.DisconnectHint"}}">
+        {{localize "SWIPE_VTT.ConnectPhone.Disconnect"}}
+      </button>
+    </div>
+    {{else}}
+    <button type="button" data-action="createDuplicate" class="connect-phone-create">
+      {{localize "SWIPE_VTT.MobileDuplicate.Create"}}
+    </button>
+    <p class="connect-phone-note">{{localize "SWIPE_VTT.MobileDuplicate.CreateHint"}}</p>
+    {{/if}}
+  </div>
+  {{/if}}
+
+  {{#if showDismiss}}
+  <label class="connect-phone-dismiss">
+    <input type="checkbox" class="connect-phone-dismiss-checkbox">
+    {{localize "SWIPE_VTT.ConnectPhone.DontShowAgain"}}
+  </label>
+  {{/if}}
+</div>

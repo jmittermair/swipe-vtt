@@ -1,0 +1,123 @@
+<div class="swipe-vtt-optimize-dialog">
+  <h4><strong>{{localize "SWIPE_VTT.ImageOptimizer.title"}}</strong></h4>
+  <p>{{localize "SWIPE_VTT.ImageOptimizer.description"}}</p>
+
+  {{#if hasAnyVideos}}
+  <p class="hint video-warning">
+    <i class="fas fa-exclamation-triangle"></i>
+    {{localize "SWIPE_VTT.ImageOptimizer.videoWarning"}}
+  </p>
+  {{/if}}
+
+  {{#if isAnalyzing}}
+  <div class="analyzing-status">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span>{{localize "SWIPE_VTT.ImageOptimizer.analyzing"}} {{analyzedCount}} / {{totalScenes}}...</span>
+  </div>
+  {{/if}}
+
+  {{#if hasOptimizableScenes}}
+  <div class="select-all-row">
+    <label>
+      <input type="checkbox" id="select-all-scenes" data-action="toggleAll" {{#if isAnalyzing}}disabled{{/if}} />
+      <strong>{{localize "SWIPE_VTT.ImageOptimizer.selectAll"}}</strong>
+    </label>
+  </div>
+  {{/if}}
+
+  {{#if scenes.length}}
+  <div class="scene-grid">
+    <table>
+      <thead>
+        <tr>
+          {{#if hasOptimizableScenes}}
+          <th class="checkbox-col"></th>
+          {{/if}}
+          <th>{{localize "SWIPE_VTT.ImageOptimizer.sceneName"}}</th>
+          <th>{{localize "SWIPE_VTT.ImageOptimizer.status"}}</th>
+          <th>{{localize "SWIPE_VTT.ImageOptimizer.images"}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each scenes}}
+        <tr class="scene-row {{status}}">
+          {{#if ../hasOptimizableScenes}}
+          <td>
+            {{#unless disabled}}
+            <input type="checkbox"
+                   class="scene-checkbox"
+                   id="scene-{{id}}"
+                   name="scenes.{{id}}.selected"
+                   {{#if selected}}checked{{/if}}
+                   data-scene-id="{{id}}" />
+            {{/unless}}
+          </td>
+          {{/if}}
+          <td>
+            <label for="scene-{{id}}">{{name}}</label>
+          </td>
+          <td>
+            {{#if (eq status "optimized")}}
+            <span class="status-badge optimized"><i class="fas fa-check"></i> {{localize "SWIPE_VTT.ImageOptimizer.statusOptimized"}}</span>
+            {{else if (eq status "pending")}}
+            <span class="status-badge pending"><i class="fas fa-exclamation-triangle"></i> {{localize "SWIPE_VTT.ImageOptimizer.statusPending"}}</span>
+            {{else if (eq status "video")}}
+            <span class="status-badge video"><i class="fas fa-video"></i> {{localize "SWIPE_VTT.ImageOptimizer.statusVideo"}}</span>
+            {{else}}
+            <span class="status-badge ok"><i class="fas fa-check"></i> {{localize "SWIPE_VTT.ImageOptimizer.statusOk"}}</span>
+            {{/if}}
+          </td>
+          <td>
+            {{#if images.length}}
+              {{#each images}}
+              <span class="image-tag" data-tooltip="{{issues}}" data-tooltip-direction="UP">
+                {{filename}}
+              </span>
+              {{/each}}
+              {{#if hasVideos}}
+              <span class="video-tag dimmed">
+                <i class="fas fa-video"></i> {{videoCount}} {{localize "SWIPE_VTT.ImageOptimizer.videosSkipped"}}
+              </span>
+              {{/if}}
+            {{else if hasVideos}}
+              <span class="video-tag dimmed">
+                <i class="fas fa-video"></i> {{videoCount}} {{localize "SWIPE_VTT.ImageOptimizer.videosSkipped"}}
+              </span>
+            {{else}}
+              {{#if (eq status "optimized")}}
+              <span class="image-info">{{optimizedCount}} {{localize "SWIPE_VTT.ImageOptimizer.imagesOptimized"}}</span>
+              {{else if (eq status "ok")}}
+              <span class="image-info dimmed">{{localize "SWIPE_VTT.ImageOptimizer.noLargeImages"}}</span>
+              {{/if}}
+            {{/if}}
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  {{else}}
+  <p class="hint no-optimization">{{localize "SWIPE_VTT.ImageOptimizer.noScenesFound"}}</p>
+  {{/if}}
+
+  <p class="hint"><small>{{localize "SWIPE_VTT.ImageOptimizer.note"}}</small></p>
+
+  <div class="folder-info">
+    <label>
+      {{localize "SWIPE_VTT.ImageOptimizer.folderLabel"}}
+      <div class="folder-input-row">
+        <input type="text"
+               name="optimizedFolder"
+               value="{{optimizedFolder}}"
+               placeholder="assets/swipe-vtt-optimized"
+               class="folder-name-input" />
+        <button type="button" class="open-folder-btn" data-action="openFileBrowser">
+          <i class="fas fa-folder-open"></i> {{localize "SWIPE_VTT.ImageOptimizer.selectFolder"}}
+        </button>
+      </div>
+    </label>
+    <p class="note">{{localize "SWIPE_VTT.ImageOptimizer.folderNote"}}</p>
+  </div>
+
+</div>

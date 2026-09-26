@@ -1,0 +1,18 @@
+/* Ripper's Taskbar (foundry-taskbar).
+ * Swipe adds/removes this body class when entering/leaving mobile mode.
+ * Keep these rules outside viewport queries so sheets-only and tablet modes
+ * are covered too, including Taskbar elements rendered after Swipe starts.
+ */
+body.swipe-vtt #taskbar,
+body.swipe-vtt #start-menu,
+body.swipe-vtt .taskbar-workspaces,
+body.swipe-vtt .taskbar-docking-container,
+body.swipe-vtt .send-to-taskbar,
+body.swipe-vtt .header-control.fa-window-minimize[data-action="minimize"] {
+  display: none !important;
+}
+
+/* Remove the height Taskbar reserves for its hidden bar. */
+body.swipe-vtt {
+  --ft-height: 0px !important;
+}

@@ -1,0 +1,21 @@
+<div class="quantity-dialog">
+  <div class="quantity-dialog-header">
+    <img class="quantity-dialog-img" src="{{item.img}}" alt="">
+    <span class="quantity-dialog-name">{{item.name}}</span>
+  </div>
+  <div class="quantity-dialog-current">{{quantity}}</div>
+  <div class="quantity-dialog-input-row">
+    <button class="quantity-dialog-adjust" data-adjust="-1">
+      <i class="fa-solid fa-minus"></i>
+    </button>
+    <input type="number" class="quantity-dialog-amount" value="{{quantity}}" min="0" inputmode="numeric">
+    <button class="quantity-dialog-adjust" data-adjust="1">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </div>
+  <div class="quantity-dialog-actions">
+    <button class="quantity-dialog-btn apply" data-action="apply">
+      {{localize "SWIPE_VTT.Sheet.Apply"}}
+    </button>
+  </div>
+</div>

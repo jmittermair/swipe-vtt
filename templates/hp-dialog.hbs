@@ -1,0 +1,39 @@
+<div class="hp-dialog">
+  <div class="hp-dialog-header">
+    <span class="hp-dialog-current">{{hp.value}} / {{hp.effectiveMax}}</span>
+    {{#if hp.temp}}<span class="hp-dialog-temp">+{{hp.temp}} temp</span>{{/if}}
+  </div>
+  <div class="hp-dialog-input-row">
+    <button class="hp-dialog-adjust" data-adjust="-1">
+      <i class="fa-solid fa-minus"></i>
+    </button>
+    <input type="number" class="hp-dialog-amount" value="0" min="0" inputmode="numeric">
+    <button class="hp-dialog-adjust" data-adjust="1">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </div>
+  <div class="hp-dialog-actions">
+    <button class="hp-dialog-btn heal" data-action="heal">
+      {{localize "SWIPE_VTT.Sheet.Healing"}}
+    </button>
+    <button class="hp-dialog-btn damage" data-action="damage">
+      {{localize "SWIPE_VTT.Sheet.Damage"}}
+    </button>
+  </div>
+  <div class="hp-dialog-row">
+    <label>{{localize "SWIPE_VTT.Sheet.TempHP"}}</label>
+    <input type="number" class="hp-dialog-field" data-field="temp" value="{{hp.temp}}" min="0" inputmode="numeric">
+    <button class="hp-dialog-field-apply" data-field="temp" title="Apply">
+      <i class="fa-solid fa-angles-right"></i>
+    </button>
+  </div>
+  {{#if hp.hasTempMax}}
+  <div class="hp-dialog-row">
+    <label>{{localize "SWIPE_VTT.Sheet.TempMax"}}</label>
+    <input type="number" class="hp-dialog-field" data-field="tempmax" value="{{hp.tempmax}}" inputmode="numeric">
+    <button class="hp-dialog-field-apply" data-field="tempmax" title="Apply">
+      <i class="fa-solid fa-angles-right"></i>
+    </button>
+  </div>
+  {{/if}}
+</div>

@@ -1,0 +1,256 @@
+<section class="form-content tab {{#if tab.active}}active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+  <p class="settings-intro">
+    <span>{{localize "SWIPE_VTT.Settings.MobileOnlyNote"}}</span>
+    <span class="toggle-hint">{{localize "SWIPE_VTT.Settings.ToggleHints"}}</span>
+  </p>
+
+  {{#if isMobile}}
+  <div class="form-group game-settings-link">
+    <button type="button" data-action="openGameSettings" class="open-game-settings">
+      <i class="fas fa-cogs"></i>
+      {{localize "SWIPE_VTT.Settings.OpenGameSettings"}}
+    </button>
+  </div>
+  {{/if}}
+
+  {{#if showGeneralFieldset}}
+  <fieldset>
+    <legend>
+    {{localize "SWIPE_VTT.Settings.Tabs.General"}}
+    </legend>
+
+    {{#if isGM}}
+    <div class="form-group">
+      <label for="autoOptimizeScenes">{{fields.autoOptimizeScenes.label}}</label>
+      <input type="checkbox" name="autoOptimizeScenes" id="autoOptimizeScenes" {{#if settings.autoOptimizeScenes}}checked{{/if}} />
+      <p class="hint">{{fields.autoOptimizeScenes.hint}}</p>
+    </div>
+
+    <div class="form-group range">
+      <label for="largeMapThreshold">{{fields.largeMapThreshold.label}}</label>
+      <div class="range-input-group">
+
+        <input type="range" name="largeMapThreshold" id="largeMapThreshold"
+              min="{{fields.largeMapThreshold.min}}"
+              max="{{fields.largeMapThreshold.max}}"
+              step="{{fields.largeMapThreshold.step}}"
+              value="{{settings.largeMapThreshold}}" />
+
+        <input type="number" class="range-value"
+              min="{{fields.largeMapThreshold.min}}"
+              max="{{fields.largeMapThreshold.max}}"
+              step="{{fields.largeMapThreshold.step}}"
+              value="{{settings.largeMapThreshold}}" />
+        
+      </div>
+      <p class="hint">{{fields.largeMapThreshold.hint}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="disableLargeMapWarnings">{{fields.disableLargeMapWarnings.label}}</label>
+      <input type="checkbox" name="disableLargeMapWarnings" id="disableLargeMapWarnings" {{#if settings.disableLargeMapWarnings}}checked{{/if}} />
+      <p class="hint">{{fields.disableLargeMapWarnings.hint}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="noCanvasBackgroundEnabled">{{fields.noCanvasBackgroundEnabled.label}}</label>
+      <input type="checkbox" name="noCanvasBackgroundEnabled" id="noCanvasBackgroundEnabled" {{#if settings.noCanvasBackgroundEnabled}}checked{{/if}} />
+      <p class="hint">{{fields.noCanvasBackgroundEnabled.hint}}</p>
+    </div>
+
+    <div class="form-group nocanvas-background-group">
+      <label for="noCanvasBackground">{{fields.noCanvasBackground.label}}</label>
+      <div class="nocanvas-bg-controls">
+        <input type="text" name="noCanvasBackground" id="noCanvasBackground"
+               value="{{settings.noCanvasBackgroundDisplay}}"
+               readonly />
+        <div class="nocanvas-bg-actions">
+          <button type="button" data-action="browseNoCanvasBg" class="nocanvas-bg-btn">
+            {{localize "SWIPE_VTT.Settings.NoCanvasBackground.Browse"}}
+          </button>
+          <button type="button" data-action="clearNoCanvasBg" class="nocanvas-bg-btn">
+            {{localize "SWIPE_VTT.Settings.NoCanvasBackground.Clear"}}
+          </button>
+        </div>
+      </div>
+      <p class="hint">{{fields.noCanvasBackground.hint}}</p>
+    </div>
+
+    {{#if hasGroupActors}}
+    <div class="form-group">
+      <label for="partyGroupActor">{{fields.partyGroupActor.label}}</label>
+      <select name="partyGroupActor" id="partyGroupActor">
+        {{#each groupActorChoices}}
+          <option value="{{@key}}" {{#if (eq @key ../settings.partyGroupActor)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select>
+      <p class="hint">{{fields.partyGroupActor.hint}}</p>
+    </div>
+    {{/if}}
+
+    <div class="form-group">
+      <label for="standaloneSkipAuth">{{fields.standaloneSkipAuth.label}}</label>
+      <input type="checkbox" name="standaloneSkipAuth" id="standaloneSkipAuth" {{#if settings.standaloneSkipAuth}}checked{{/if}} />
+      <p class="hint">{{fields.standaloneSkipAuth.hint}}</p>
+    </div>
+    {{/if}}
+
+    {{#unless isNativeMobile}}
+    <div class="form-group">
+      <label for="enabled">{{fields.enabled.label}}</label>
+      <input type="checkbox" name="enabled" id="enabled" {{#if settings.enabled}}checked{{/if}} />
+      <p class="hint">{{fields.enabled.hint}}</p>
+    </div>
+    {{/unless}}
+
+  </fieldset>
+  {{/if}}
+
+  {{#if isMobile}}
+  <fieldset>
+    <legend>{{localize "SWIPE_VTT.Settings.Fieldsets.SheetAndChat"}}</legend>
+    <div class="form-group {{#if forced.enableMobileSheets}}gm-forced{{/if}}">
+      <label for="enableMobileSheets">{{fields.enableMobileSheets.label}}{{#if forced.enableMobileSheets}} <i class="fas fa-lock gm-override-indicator" title="{{localize "SWIPE_VTT.UserConfig.ForcedByGM"}}"></i>{{/if}}</label>
+      <input type="checkbox" name="enableMobileSheets" id="enableMobileSheets" {{#if settings.enableMobileSheets}}checked{{/if}} {{#if forced.enableMobileSheets}}disabled{{/if}} />
+      <p class="hint">{{fields.enableMobileSheets.hint}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="expandedSheet">{{fields.expandedSheet.label}}</label>
+      <input type="checkbox" name="expandedSheet" id="expandedSheet" {{#if settings.expandedSheet}}checked{{/if}} />
+      <p class="hint">{{fields.expandedSheet.hint}}</p>
+    </div>
+
+    {{!-- <div class="form-group">
+      <label for="layoutSpacing">{{fields.layoutSpacing.label}}</label>
+      <select name="layoutSpacing" id="layoutSpacing">
+        {{#each fields.layoutSpacing.choices}}
+          <option value="{{@key}}" {{#if (eq @key ../settings.layoutSpacing)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select>
+      <p class="hint">{{fields.layoutSpacing.hint}}</p>
+    </div> --}}
+
+    <div class="form-group">
+      <label for="closeSheetOnRoll">{{fields.closeSheetOnRoll.label}}</label>
+      <input type="checkbox" name="closeSheetOnRoll" id="closeSheetOnRoll" {{#if settings.closeSheetOnRoll}}checked{{/if}} />
+      <p class="hint">{{fields.closeSheetOnRoll.hint}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="openChatOnMessage">{{fields.openChatOnMessage.label}}</label>
+      <select name="openChatOnMessage" id="openChatOnMessage">
+        {{#each fields.openChatOnMessage.choices}}
+          <option value="{{@key}}" {{#if (eq @key ../settings.openChatOnMessage)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select>
+      <p class="hint">{{fields.openChatOnMessage.hint}}</p>
+    </div>
+
+    <div class="form-group range">
+      <label for="chatAutoHideSeconds">{{fields.chatAutoHideSeconds.label}}</label>
+      <div class="range-input-group">
+        <input type="range" name="chatAutoHideSeconds" id="chatAutoHideSeconds"
+              min="{{fields.chatAutoHideSeconds.min}}"
+              max="{{fields.chatAutoHideSeconds.max}}"
+              step="{{fields.chatAutoHideSeconds.step}}"
+              value="{{settings.chatAutoHideSeconds}}" />
+        <input type="number" class="range-value"
+              min="{{fields.chatAutoHideSeconds.min}}"
+              max="{{fields.chatAutoHideSeconds.max}}"
+              step="{{fields.chatAutoHideSeconds.step}}"
+              value="{{settings.chatAutoHideSeconds}}" />
+      </div>
+      <p class="hint">{{fields.chatAutoHideSeconds.hint}}</p>
+    </div>
+
+    <div class="form-group {{#if forced.keepAwake}}gm-forced{{/if}}">
+      <label for="keepAwake">{{fields.keepAwake.label}}{{#if forced.keepAwake}} <i class="fas fa-lock gm-override-indicator" title="{{localize "SWIPE_VTT.UserConfig.ForcedByGM"}}"></i>{{/if}}</label>
+      <input type="checkbox" name="keepAwake" id="keepAwake" {{#if settings.keepAwake}}checked{{/if}} {{#if forced.keepAwake}}disabled{{/if}} />
+      <p class="hint">{{fields.keepAwake.hint}}</p>
+    </div>
+
+  </fieldset>
+
+  {{#if hasSystemSettings}}
+  <fieldset>
+    <legend>{{localize "SWIPE_VTT.Settings.Fieldsets.SystemSettings"}}</legend>
+
+    {{#if systemFields.showRollDialog}}
+    <div class="form-group">
+      <label for="showRollDialog">{{systemFields.showRollDialog.label}}</label>
+      <input type="checkbox" name="showRollDialog" id="showRollDialog" {{#if systemSettings.showRollDialog}}checked{{/if}} />
+      <p class="hint">{{systemFields.showRollDialog.hint}}</p>
+    </div>
+    {{/if}}
+  </fieldset>
+  {{/if}}
+
+  <fieldset>
+    <legend>{{localize "SWIPE_VTT.Settings.Fieldsets.CameraViews"}}</legend>
+    <div class="form-group">
+      <label for="speakerOnlyAV">{{fields.speakerOnlyAV.label}}</label>
+      <input type="checkbox" name="speakerOnlyAV" id="speakerOnlyAV" {{#if settings.speakerOnlyAV}}checked{{/if}} />
+      <p class="hint">{{fields.speakerOnlyAV.hint}}</p>
+    </div>
+  </fieldset>
+  {{/if}}
+
+  <fieldset>
+    <legend>{{localize "SWIPE_VTT.Settings.Fieldsets.Controls"}}</legend>
+    {{#unless isMobile}}
+    <p class="info">{{localize "SWIPE_VTT.Settings.Controls.TouchOnly"}}</p>
+    {{/unless}}
+
+    {{#unless ravenActive}}
+    <div class="form-group">
+      <label for="oneFingerDrag">{{fields.oneFingerDrag.label}}</label>
+      <select name="oneFingerDrag" id="oneFingerDrag">
+        {{#each fields.oneFingerDrag.choices}}
+          <option value="{{@key}}" {{#if (eq @key ../settings.oneFingerDrag)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select>
+      <p class="hint">{{fields.oneFingerDrag.hint}}</p>
+    </div>
+    {{/unless}}
+
+    {{#if isGM}}
+    <div class="form-group">
+      <label for="allowMiniCanvas">{{fields.allowMiniCanvas.label}}</label>
+      <input type="checkbox" name="allowMiniCanvas" id="allowMiniCanvas" {{#if settings.allowMiniCanvas}}checked{{/if}} />
+      <p class="hint">{{fields.allowMiniCanvas.hint}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="miniCanvasShowWalls">{{fields.miniCanvasShowWalls.label}}</label>
+      <input type="checkbox" name="miniCanvasShowWalls" id="miniCanvasShowWalls" {{#if settings.miniCanvasShowWalls}}checked{{/if}} />
+      <p class="hint">{{fields.miniCanvasShowWalls.hint}}</p>
+    </div>
+    {{/if}}
+
+    <div class="form-group">
+      <label for="enableMiniCanvas">{{fields.enableMiniCanvas.label}}</label>
+      <input type="checkbox" name="enableMiniCanvas" id="enableMiniCanvas" {{#if settings.enableMiniCanvas}}checked{{/if}} {{#unless settings.allowMiniCanvas}}disabled{{/unless}} />
+      <p class="hint">{{fields.enableMiniCanvas.hint}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="hideQuickControls">{{fields.hideQuickControls.label}}</label>
+      <input type="checkbox" name="hideQuickControls" id="hideQuickControls" {{#if settings.hideQuickControls}}checked{{/if}} />
+      <p class="hint">{{fields.hideQuickControls.hint}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="hideAvatarCarousel">{{fields.hideAvatarCarousel.label}}</label>
+      <input type="checkbox" name="hideAvatarCarousel" id="hideAvatarCarousel" {{#if settings.hideAvatarCarousel}}checked{{/if}} />
+      <p class="hint">{{fields.hideAvatarCarousel.hint}}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="hideMacroButton">{{fields.hideMacroButton.label}}</label>
+      <input type="checkbox" name="hideMacroButton" id="hideMacroButton" {{#if settings.hideMacroButton}}checked{{/if}} />
+      <p class="hint">{{fields.hideMacroButton.hint}}</p>
+    </div>
+  </fieldset>
+
+</section>

@@ -1,0 +1,86 @@
+<section class="tab memory-diagnostics {{#if tab.active}}active{{/if}}" data-group="main" data-tab="textures">
+
+  {{!-- Texture Memory Summary --}}
+  <fieldset class="diag-section">
+    <legend><i class="fas fa-image"></i> {{localize "SWIPE_VTT.MemoryDiag.GPUTextureMemory"}} <span class="count-badge">{{textures.total}}</span></legend>
+    <p class="hint">{{textures.count}} {{localize "SWIPE_VTT.MemoryDiag.TexturesLoaded"}}</p>
+
+    {{#if textures.byModule.length}}
+    <h4>{{localize "SWIPE_VTT.MemoryDiag.ByModule"}}</h4>
+    <table class="diag-table">
+      <thead><tr><th>{{localize "SWIPE_VTT.MemoryDiag.Module"}}</th><th>{{localize "SWIPE_VTT.MemoryDiag.Textures"}}</th><th>{{localize "SWIPE_VTT.MemoryDiag.Memory"}}</th></tr></thead>
+      <tbody>
+        {{#each textures.byModule}}
+        <tr><td>{{title}}</td><td>{{count}}</td><td class="num">{{formatted}}</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}}
+
+    {{#if textures.byCategory.length}}
+    <h4>{{localize "SWIPE_VTT.MemoryDiag.ByCategory"}}</h4>
+    <table class="diag-table">
+      <thead><tr><th>{{localize "SWIPE_VTT.MemoryDiag.Category"}}</th><th>{{localize "SWIPE_VTT.MemoryDiag.Memory"}}</th></tr></thead>
+      <tbody>
+        {{#each textures.byCategory}}
+        <tr><td>{{category}}</td><td class="num">{{formatted}}</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}}
+
+    {{#if textures.topConsumers.length}}
+    <h4>{{localize "SWIPE_VTT.MemoryDiag.LargestTextures"}}</h4>
+    <table class="diag-table">
+      <thead><tr><th>{{localize "SWIPE_VTT.MemoryDiag.Asset"}}</th><th>{{localize "SWIPE_VTT.MemoryDiag.Size"}}</th><th>{{localize "SWIPE_VTT.MemoryDiag.Memory"}}</th><th></th></tr></thead>
+      <tbody>
+        {{#each textures.topConsumers}}
+        <tr>
+          <td class="asset-path" title="{{source}}">{{label}}</td>
+          <td>{{dimensions}}</td>
+          <td class="num">{{formatted}}</td>
+          <td class="opt-status">
+            {{#if isOptimized}}<span class="opt-badge opt-yes" title="Optimized by Swipe VTT">optimized</span>
+            {{else if canOptimize}}<span class="opt-badge opt-no" title="Can be optimized">unoptimized</span>
+            {{/if}}
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}}
+  </fieldset>
+
+  {{!-- Per-Scene Texture Estimates --}}
+  {{#if textures.hasSceneEstimates}}
+  <fieldset class="diag-section">
+    <legend><i class="fas fa-map"></i> {{localize "SWIPE_VTT.MemoryDiag.PerSceneTextures"}}</legend>
+    <p class="hint">{{localize "SWIPE_VTT.MemoryDiag.PerSceneHint"}}</p>
+    <table class="diag-table">
+      <thead>
+        <tr>
+          <th>{{localize "SWIPE_VTT.MemoryDiag.Scene"}}</th>
+          <th>{{localize "SWIPE_VTT.MemoryDiag.Dimensions"}}</th>
+          <th>{{localize "SWIPE_VTT.MemoryDiag.Assets"}}</th>
+          <th>{{localize "SWIPE_VTT.MemoryDiag.Loaded"}}</th>
+          <th>{{localize "SWIPE_VTT.MemoryDiag.Estimated"}}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each textures.sceneEstimates}}
+        <tr class="{{#if isActive}}diag-active-scene{{/if}}">
+          <td>{{name}} {{#if isActive}}<i class="fas fa-eye" title="Active/Viewed"></i>{{/if}}</td>
+          <td>{{#if dimensions}}{{dimensions}}{{else}}&mdash;{{/if}}</td>
+          <td class="num">{{assetCount}}</td>
+          <td class="num">{{loadedFormatted}}</td>
+          <td class="num">{{estimatedFormatted}}</td>
+          <td>{{#if oversized}}<span class="opt-badge opt-no" title="Background exceeds 4096px">oversized</span>{{/if}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </fieldset>
+  {{/if}}
+
+</section>
